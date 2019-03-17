@@ -10,13 +10,13 @@ CSS_STYLES = """
 TOOTH_DEPTH_DEFAULT = 3.0 / 16
 TOOTH_MARGIN_DEFAULT = 0.25
 
+
 TPI = {
+    #    total width, gap  (difference is 'pin' width)
     4:  [1.0 / 4,  0.15],
     6:  [1.0 / 6,  0.10],
-    8:  [1.0 / 8,  0.08],
-    #8:  [1.0 / 8,  0.07],
-    #10: [1.0 / 10, 0.06],
-    10: [1.0 / 10, 0.07]
+    8:  [1.0 / 8,  0.06],
+    10: [1.0 / 10, 0.05]
 } 
 
 class Loom(object):
@@ -45,7 +45,9 @@ class Loom(object):
         if self.include_background:
             self.dwg.add(self.dwg.rect(size=('100%','100%'), class_='background'))
         
-        tpi_width, tpi_gap = TPI.get(self.tpi)
+        tpi_width, tpi_gap = TPI.get(self.tpi, (None, None))
+        if tpi_width is None:
+            raise ValueError('TPI size must be one of (%s)' % ",".join(str(tpi) for tpi in sorted(TPI.keys())))
         tooth_count = int(self.working_size_width * self.tpi)
         # top teeth
         start_xy = (self.side_margin + (tpi_width/4), 0.0)

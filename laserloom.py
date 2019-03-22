@@ -99,9 +99,9 @@ class Loom(object):
 
     def save(self, filename=None):
         if filename:
-            self.dwg.saveas(filename)
+            self.dwg.saveas(filename, pretty=True)
         else:
-            self.dwg.save()
+            self.dwg.save(pretty=True)
     
     def __str__(self):
         vals = (self.loom_type,

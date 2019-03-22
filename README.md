@@ -27,7 +27,7 @@ print(l)
 l.save('open_loom.svg')
 ```
 
-Start by importing `Loom` class and instanciating a `Loom` object.
+Start by importing `Loom` class and instantiating a `Loom` object.
 
 - `loom_type` is either `OPEN` or `PLATE` depending on the style you want to generate.  `OPEN` looms are better for smaller and roughly square pieces that are not warped very tightly.  `PLATE` looms are better or larger pieces that are more rectangular (either wide or long) that can be warped more tightly.  Since `PLATE` looms don't have an open hold in the middle to facilitate weaving the weft, the teeth are designed to be glued on top of plate to give enough space for weaving.
 

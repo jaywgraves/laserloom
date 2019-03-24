@@ -5,7 +5,7 @@ from svgwrite import inch
 CSS_STYLES = """
     .background { fill: white; }
     .cut {stroke: red; stroke-width: .01; fill-opacity:0;}
-    .vectorengrave { stroke: blue; stroke-width: .01; }
+    .vectorengrave { stroke: blue; stroke-width: .01; fill: blue; }
 """
 TOOTH_DEPTH_DEFAULT = 3.0 / 16
 TOOTH_MARGIN_DEFAULT = 0.25
@@ -32,6 +32,7 @@ class Loom(object):
         self.strip_margin = 0.0
         self.total_width = 0.0
         self.total_length = 0.0
+        self.engrave_info = True
         self.include_background = True
     
     def generate(self):
@@ -49,6 +50,17 @@ class Loom(object):
         if tpi_width is None:
             raise ValueError('TPI size must be one of (%s)' % ",".join(str(tpi) for tpi in sorted(TPI.keys())))
         tooth_count = int(self.working_size_width * self.tpi)
+        if self.engrave_info:
+            engrave_string = 'LaserLoom %sx%s (%i TPI)' % (str(self.working_size_width), str(self.working_size_length), self.tpi)
+            self.dwg.add(
+                self.dwg.text(engrave_string,
+                              insert=(0,0),
+                              transform="rotate(-90 0,0) translate(-%s, .18)" % (self.working_size_length),
+                              font_size=".12",
+                              font_family="sans-serif",
+                              class_="vectorengrave"
+                             )
+            )
         # top teeth
         start_xy = (self.side_margin + (tpi_width/4), 0.0)
         self.make_teeth(start_xy, self.tooth_depth, tpi_width, tpi_gap, tooth_count)

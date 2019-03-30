@@ -52,10 +52,11 @@ class Loom(object):
         tooth_count = int(self.working_size_width * self.tpi)
         if self.engrave_info:
             engrave_string = 'LaserLoom %sx%s (%i TPI)' % (str(self.working_size_width), str(self.working_size_length), self.tpi)
+            engrave_x = self.working_size_length + self.tooth_depth + self.tooth_margin + self.strip_margin - .20
             self.dwg.add(
                 self.dwg.text(engrave_string,
                               insert=(0,0),
-                              transform="rotate(-90 0,0) translate(-%s, .18)" % (self.working_size_length),
+                              transform="rotate(-90 0,0) translate(-%s, .18)" % (engrave_x, ),
                               font_size=".12",
                               font_family="sans-serif",
                               class_="vectorengrave"

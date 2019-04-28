@@ -93,7 +93,7 @@ class Loom(object):
             start_y = self.total_length - self.tooth_depth - self.tooth_margin - self.strip_margin
             if self.strip_margin:
                 self.dwg.add(
-                    self.dwg.rect(insert=(start_x, start_y), size=(self.total_width, -self.strip_margin), class_='cut')
+                    self.dwg.rect(insert=(start_x, start_y), size=(self.total_width, self.strip_margin), class_='cut')
                 )
             else:
                 self.dwg.add(

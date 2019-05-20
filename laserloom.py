@@ -37,7 +37,9 @@ class Loom(object):
     
     def generate(self):
         self.total_width = self.working_size_width + (2 * self.side_margin)
-        self.total_length = self.working_size_length + (2 * self.tooth_depth) + (2 * self.tooth_margin) + (2 * self.strip_margin)
+        self.total_length = self.working_size_length + (2 * self.tooth_depth) + (2 * self.tooth_margin) + (4 * self.strip_margin)
+        if self.loom_type == 'PLATE' and not self.strip_margin:
+            self.total_length += (2 * self.tooth_margin)
         self.dwg = svgwrite.Drawing(self.filename, 
                                     size=(self.total_width*inch, self.total_length*inch), 
                                     viewBox="0 0 {0} {1}".format(self.total_width, self.total_length)
@@ -52,7 +54,7 @@ class Loom(object):
         tooth_count = int(self.working_size_width * self.tpi)
         if self.engrave_info:
             engrave_string = 'LaserLoom %sx%s (%i TPI)' % (str(self.working_size_width), str(self.working_size_length), self.tpi)
-            engrave_x = self.working_size_length + self.tooth_depth + self.tooth_margin + self.strip_margin - .20
+            engrave_x = self.working_size_length + self.tooth_depth + self.tooth_margin + (2 * self.strip_margin) - .20
             self.dwg.add(
                 self.dwg.text(engrave_string,
                               insert=(0,0),
@@ -84,9 +86,17 @@ class Loom(object):
                 self.dwg.add(
                     self.dwg.rect(insert=(start_x, start_y), size=(self.total_width, self.strip_margin), class_='cut')
                 )
+                start_y +=  2 * self.strip_margin
+                self.dwg.add(
+                    self.dwg.line(start=(start_x, start_y),  end=(self.total_width, start_y), class_='vectorengrave')
+                )
             else:
                 self.dwg.add(
                     self.dwg.line(start=(start_x, start_y),  end=(self.total_width, start_y), class_='cut')
+                )
+                start_y += self.tooth_margin
+                self.dwg.add(
+                    self.dwg.line(start=(start_x, start_y),  end=(self.total_width, start_y), class_='vectorengrave')
                 )
             # bottom strip
             start_x = 0
@@ -95,9 +105,17 @@ class Loom(object):
                 self.dwg.add(
                     self.dwg.rect(insert=(start_x, start_y), size=(self.total_width, self.strip_margin), class_='cut')
                 )
+                start_y -=  self.strip_margin
+                self.dwg.add(
+                    self.dwg.line(start=(start_x, start_y),  end=(self.total_width, start_y), class_='vectorengrave')
+                )
             else:
                 self.dwg.add(
                     self.dwg.line(start=(start_x, start_y),  end=(self.total_width, start_y), class_='cut')
+                )
+                start_y -=  self.tooth_margin
+                self.dwg.add(
+                    self.dwg.line(start=(start_x, start_y),  end=(self.total_width, start_y), class_='vectorengrave')
                 )
         # outside cleanup
         self.dwg.add(self.dwg.rect(size=(self.total_width,self.total_length), rx=0.1, ry=0.1, class_='cut'))

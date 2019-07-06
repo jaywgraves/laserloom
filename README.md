@@ -2,6 +2,9 @@
 
 This is a small Python3 package to generate SVG files to laser cut a hand loom of a given style, tooth pitch and size.
 
+Example:
+![sample looms](sample_looms.jpg)
+
 You can run it as a Docker container by first building the local image by running `./docker_build.sh`. (you should only need to do this one time) 
 
 Then you can test it by running `./docker_run.sh test_files.py`. 

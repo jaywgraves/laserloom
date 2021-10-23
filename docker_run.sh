@@ -1,1 +1,0 @@
-docker run -it --rm --user $(id -u):$(id -g) -v `pwd`:/usr/data laserloom:local python -B $1

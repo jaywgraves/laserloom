@@ -5,9 +5,9 @@ This is a small Python3 package to generate SVG files to laser cut a hand loom o
 Example:
 ![sample looms](sample_looms.jpg)
 
-You can run it as a Docker container by first building the local image by running `./docker_build.sh`. (you should only need to do this one time) 
+You can run it as a Docker container by first building the local image by running `make build`. (you should only need to do this one time) 
 
-Then you can test it by running `./docker_run.sh test_files.py`. 
+Then you can test it by running `make run script=test_files.py`. 
 
 Alternately you run it locally after installing the dependencies via `pip install -r requirements.txt` and then running `python3 test_files.py`
 
